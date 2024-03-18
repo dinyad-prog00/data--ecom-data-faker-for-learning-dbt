@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  first_name String   @db.VarChar(100)
+  last_name  String   @db.VarChar(100)
+  email      String   @db.VarChar(255)
+  phone      String   @db.VarChar(50)
+  zip_code   String   @db.VarChar(20)
+  city       String   @db.VarChar(80)
+  state      String   @db.VarChar(80)
+  address    String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  orders     Order[]
+
+  @@map("customer")
+}
+
+model Employee {
+  id           Int        @id @default(autoincrement())
+  first_name   String     @db.VarChar(100)
+  last_name    String     @db.VarChar(100)
+  email        String     @db.VarChar(255)
+  job_title    String     @db.VarChar(150)
+  hire_date    DateTime
+  manager      Employee ?  @relation(name: "subordinate", fields: [manager_id], references: [id])
+  manager_id   Int?
+  subordinates Employee[] @relation(name: "subordinate")
+  zip_code     String     @db.VarChar(20)
+  city         String     @db.VarChar(80)
+  state        String     @db.VarChar(80)
+  address      String     @db.VarChar(255)
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+
+  orders Order[]
+
+  @@map("employee")
+}
+
+model Product {
+  id             Int         @id @default(autoincrement())
+  name           String      @db.VarChar(100)
+  category       String      @db.VarChar(100)
+  retail_price   Decimal     @db.Decimal(10, 2)
+  supplier_price Decimal     @db.Decimal(10, 2)
+  supplier       Supplier    @relation(fields: [supplier_id], references: [id])
+  supplier_id    Int
+  updated_at     DateTime    @updatedAt
+  order_items    OrderItem[]
+
+  @@map("product")
+}
+
+model Supplier {
+  id             Int       @id @default(autoincrement())
+  name           String    @db.VarChar(100)
+  contact_person String    @db.VarChar(100)
+  email          String    @db.VarChar(255)
+  phone          String    @db.VarChar(50)
+  zip_code       String    @db.VarChar(20)
+  city           String    @db.VarChar(80)
+  state          String    @db.VarChar(80)
+  address        String    @db.VarChar(255)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  products       Product[]
+
+  @@map("supplier")
+}
+
+model Store {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  phone      String   @db.VarChar(50)
+  email      String   @db.VarChar(255)
+  zip_code   String   @db.VarChar(20)
+  city       String   @db.VarChar(80)
+  state      String   @db.VarChar(80)
+  address    String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  orders     Order[]
+
+  @@map("store")
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  order_date  DateTime
+  status      String      @db.VarChar(20)
+  customer_id Int
+  customer    Customer    @relation(fields: [customer_id], references: [id])
+  store_id    Int
+  store       Store       @relation(fields: [store_id], references: [id])
+  employee_id Int
+  employee    Employee    @relation(fields: [employee_id], references: [id])
+  items       OrderItem[]
+  updated_at  DateTime    @updatedAt
+
+  @@map("order")
+}
+
+model OrderItem {
+  id         Int     @id @default(autoincrement())
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
+  quantity   Int
+  unit_price Decimal @db.Decimal(10, 2)
+  order_id   Int
+  order      Order   @relation(fields: [order_id], references: [id])
+
+  @@map("order_item")
+}
