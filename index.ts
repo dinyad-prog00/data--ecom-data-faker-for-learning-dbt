@@ -1,23 +1,22 @@
 import { PrismaClient } from '@prisma/client'
 import { fakerFR as faker } from '@faker-js/faker';
-import DataFaker from './utils/data.faker';
 import { runSeeder } from './utils/data.seeder';
 import { SeederOptions } from './types';
 
 const prisma = new PrismaClient()
 
 const seedersOptions: SeederOptions = {
-    customers: { size: 100 },
+    customers: { size: 8000 },
     stores: { size: 100 },
     suppliers: { size: 100 },
-    products: { size: 100 },
-    employees: { size: 25, managerSize: 2 },
-    orders: { size: 200, itemsMaxSize: 10 },
-    reset: false
+    products: { size: 5000 },
+    employees: { size: 200, managerSize: 10 },
+    orders: { size: 10000, itemsMaxSize: 10 },
+    reset: true
 }
 
 async function main() {
-    
+
     await runSeeder(faker, seedersOptions)
 }
 

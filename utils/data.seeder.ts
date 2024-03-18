@@ -131,7 +131,7 @@ export const runSeeder = async (faker: Faker, { customers, stores, suppliers, pr
 
     console.info("Seeding done.")
 
-
+    await prisma.$disconnect()
 
 }
 

@@ -22,7 +22,7 @@ To use this tool, ensure you have Node.js installed on your machine. Then, follo
    ```
 ## Database
 
-This tool is designed to work with databases compatible with Prisma, including PostgreSQL, MySQL, SQLite, etc. Ensure you have the necessary database drivers installed and configured based on your chosen database system. The Prisma schema included in the repository defines the database schema. You can setup your database in **.env** file following Prisma format.
+This tool is designed to work with databases compatible with Prisma, including PostgreSQL, MySQL, SQLite, etc. Ensure you have the necessary database drivers installed and configured based on your chosen database system. The Prisma schema included in the repository defines the database schema. You can setup your database in `.env` file following Prisma format.
 
 
 ## Usage
