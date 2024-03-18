@@ -7,6 +7,8 @@ This repository provides a data faker tool designed for learning dbt (Data Build
 
 The tool is built using TypeScript and leverages the faker-js library to generate realistic data across various entities such as customers, employees, suppliers, products, stores, orders, and order items. The generated data follows predefined schemas and can be used to populate a database for educational purposes or to test dbt models.
 
+![Giagramme](images/prisma-erd.svg)
+
 ## Installation
 
 To use this tool, ensure you have Node.js installed on your machine. Then, follow these steps:
